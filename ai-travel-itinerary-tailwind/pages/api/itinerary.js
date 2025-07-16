@@ -1,9 +1,11 @@
 export default async function handler(req, res) {
+   console.log("Itinerary API hit");
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
   const { city, interests } = req.body;
+  console.log("Received:", city, interests);
 
   const prompt = `Create a one-day travel itinerary for ${city} based on these interests: ${interests}. Include morning, afternoon, and evening activities, with unique local suggestions.`;
 
@@ -22,6 +24,7 @@ export default async function handler(req, res) {
     });
 
     const data = await openaiRes.json();
+    console.log("OpenAI response:", data);
     const itinerary = data.choices?.[0]?.message?.content?.trim();
 
     return res.status(200).json({ itinerary });
