@@ -8,6 +8,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const generateItinerary = async () => {
+    console.log("Generate button clicked!");
+
     if (!city || !interests) return alert("Please fill in all fields.");
     setLoading(true);
     setItinerary("");
@@ -19,8 +21,10 @@ export default function Home() {
         body: JSON.stringify({ city, interests })
       });
       const data = await response.json();
+      console.log("API response:", data); 
       setItinerary(data.itinerary);
     } catch (error) {
+      console.error("Error calling /api/itinerary:", error);
       setItinerary("Error generating itinerary. Please try again.");
     } finally {
       setLoading(false);
